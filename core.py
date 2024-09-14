@@ -2,6 +2,8 @@
 import cv2
 from PIL import ImageGrab
 import numpy as np
+import keyboard
+import time
 
 class Object:
     def __init__(self, path):
@@ -9,19 +11,30 @@ class Object:
         self.img = img
         self.width = img.shape[1]
         self.height = img.shape[0]
-        self.locations = []  # List of all matches
+        self.locations = []  # To store all matched locations
 
-    def match(self, scr):
-        res = cv2.matchTemplate(scr, self.img, cv2.TM_CCOEFF_NORMED)
-        threshold = 0.8  # Set the threshold for a valid match
-        match_locations = np.where(res >= threshold)  # Get all locations above threshold
+    def match(self, scr, scale=1.0):
+        if scale != 1.0:
+            resized_img = cv2.resize(self.img, None, fx=scale, fy=scale, interpolation=cv2.INTER_LINEAR)
+            res = cv2.matchTemplate(scr, resized_img, cv2.TM_CCOEFF_NORMED)
+            template_width = resized_img.shape[1]
+            template_height = resized_img.shape[0]
+        else:
+            res = cv2.matchTemplate(scr, self.img, cv2.TM_CCOEFF_NORMED)
+            template_width = self.width
+            template_height = self.height
 
+        minVal, maxVal, minLoc, maxLoc = cv2.minMaxLoc(res)
         self.locations = []  # Clear previous locations
-        for pt in zip(*match_locations[::-1]):  # Iterate through found locations
-            startLoc = (pt[0], pt[1])
-            endLoc = (startLoc[0] + self.width, startLoc[1] + self.height)
+
+        # Store multiple matches if the value is greater than the threshold
+        threshold = 0.8
+        locs = np.where(res >= threshold)
+        for pt in zip(*locs[::-1]):  # Switch x and y axis
+            startLoc = pt
+            endLoc = (startLoc[0] + template_width, startLoc[1] + template_height)
             self.locations.append((startLoc, endLoc))
-        
+
         return len(self.locations) > 0
 
 def grabScreen(bbox=None):
@@ -30,6 +43,18 @@ def grabScreen(bbox=None):
     img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
     return img
 
+def press_key(key, delay,note,location):
+    print(f"Pressing {note} at location {location}")
+    if (note == "Yellow Star"):
+        time.sleep(0.2)
+        keyboard.press(key)
+        time.sleep(0.1)
+        keyboard.release(key)
+        time.sleep(0.2)
+    else:
+        time.sleep(delay)
+        keyboard.press(key)
+        keyboard.release(key)
 
 # while 1:
 #     img = grabScreen()
