@@ -4,6 +4,7 @@ from PIL import ImageGrab
 import numpy as np
 import keyboard
 import time
+from config import *
 
 class Object:
     def __init__(self, path):
@@ -13,7 +14,7 @@ class Object:
         self.height = img.shape[0]
         self.locations = []  # To store all matched locations
 
-    def match(self, scr, scale=1.0):
+    def match(self, scr, threshold = 0.8, scale=1.0):
         if scale != 1.0:
             resized_img = cv2.resize(self.img, None, fx=scale, fy=scale, interpolation=cv2.INTER_LINEAR)
             res = cv2.matchTemplate(scr, resized_img, cv2.TM_CCOEFF_NORMED)
@@ -28,7 +29,7 @@ class Object:
         self.locations = []  # Clear previous locations
 
         # Store multiple matches if the value is greater than the threshold
-        threshold = 0.8
+        
         locs = np.where(res >= threshold)
         for pt in zip(*locs[::-1]):  # Switch x and y axis
             startLoc = pt
@@ -44,17 +45,42 @@ def grabScreen(bbox=None):
     return img
 
 def press_key(key, delay,note,location):
-    print(f"Pressing {note} at location {location}")
     if (note == "Yellow Star"):
         time.sleep(0.2)
+        print(f"Pressing {note} at location {location}")
         keyboard.press(key)
         time.sleep(0.1)
         keyboard.release(key)
         time.sleep(0.2)
     else:
         time.sleep(delay)
+        print(f"Pressing {note} at location {location}")
         keyboard.press(key)
         keyboard.release(key)
+    
+def hitboxDrawing(img, noteType='normal', active=False ):
+    if active and noteType == "normal":
+        cv2.rectangle(img, (notePP["gHor"], notePP["v"]), (notePP["gHorFinish"], notePP["vFinish"]), colors['green'], 3) #Green
+        cv2.rectangle(img, (notePP["rHor"], notePP["v"]), (notePP["rHorFinish"], notePP["vFinish"]), colors['red'], 3) #Red
+        cv2.rectangle(img, (notePP["yHor"], notePP["v"]), (notePP["yHorFinish"], notePP["vFinish"]), colors['yellow'], 3) #Yellow
+        cv2.rectangle(img, (notePP["bHor"], notePP["v"]), (notePP["bHorFinish"], notePP["vFinish"]), colors['blue'], 3) #Blue
+        cv2.rectangle(img, (notePP["oHor"], notePP["v"]), (notePP["oHorFinish"], notePP["vFinish"]), colors['orange'], 3) #Orange
+
+    if active and noteType == "special":
+        cv2.rectangle(img, (sNotePP["gHor"], sNotePP["v"]), (sNotePP["gHorFinish"], sNotePP["vFinish"]), colors['green'], 3) #Green
+        cv2.rectangle(img, (sNotePP["rHor"], sNotePP["v"]), (sNotePP["rHorFinish"], sNotePP["vFinish"]), colors['red'], 3) #Red
+        cv2.rectangle(img, (sNotePP["yHor"], sNotePP["v"]), (sNotePP["yHorFinish"], sNotePP["vFinish"]), colors['yellow'], 3) #Yellow
+        cv2.rectangle(img, (sNotePP["bHor"], sNotePP["v"]), (sNotePP["bHorFinish"], sNotePP["vFinish"]), colors['blue'], 3) #Blue
+        cv2.rectangle(img, (sNotePP["oHor"], sNotePP["v"]), (sNotePP["oHorFinish"], sNotePP["vFinish"]), colors['orange'], 3) #Orange
+
+
+# def pressDrawing(img, note, active=False):
+#     print("here")
+#     if active:
+#         print("here2")
+#         if note == "Green":
+#             print("here3")
+#             cv2.rectangle(img, (notePP["gHor"] - 20, notePP["v"]), (notePP["gHor"] - 10, notePP["vFinish"] - 40), (0,255,0), 5) #Green
 
 # while 1:
 #     img = grabScreen()
