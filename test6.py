@@ -29,15 +29,15 @@ with mss.mss() as sct:
                 verticalDistance = location[0][1] - pressZone[0][1]
                 if verticalDistance < distanceTrashhold:  # Check if note is in press zone
                     if location[0][0] < notePP["gHorFinish"]:
-                        threading.Thread(target=press_key, args=("a", note_delay, "Green", location[0][0])).start()
+                        threading.Thread(target=press_key, args=("a", noteDelay, "Green", location[0][0])).start()
                     elif location[0][0] > notePP["gHorFinish"] and location[0][0] < notePP["rHorFinish"]:
-                        threading.Thread(target=press_key, args=("s", note_delay, "Red", location[0][0])).start()
+                        threading.Thread(target=press_key, args=("s", noteDelay, "Red", location[0][0])).start()
                     elif location[0][0] > notePP["rHorFinish"] and location[0][0] < notePP["yHorFinish"]:
-                        threading.Thread(target=press_key, args=("j", note_delay, "Yellow", location[0][0])).start()
+                        threading.Thread(target=press_key, args=("j", noteDelay, "Yellow", location[0][0])).start()
                     elif location[0][0] > notePP["yHorFinish"] and location[0][0] < notePP["bHorFinish"]:
-                        threading.Thread(target=press_key, args=("k", note_delay, "Blue", location[0][0])).start()
+                        threading.Thread(target=press_key, args=("k", noteDelay, "Blue", location[0][0])).start()
                     elif location[0][0] > notePP["bHorFinish"]:
-                        threading.Thread(target=press_key, args=("l", note_delay, "Orange", location[0][0])).start()
+                        threading.Thread(target=press_key, args=("l", noteDelay, "Orange", location[0][0])).start()
 
         # Similarly, process special notes
         if special_note_detected:
@@ -46,15 +46,15 @@ with mss.mss() as sct:
                 verticalDistance = location[0][1] - pressZone[0][1]
                 if verticalDistance < specialDistanceTrashhold:  # Check if special note is in press zone
                     if location[0][0] < sNotePP["gHorFinish"]:
-                        threading.Thread(target=press_key, args=("a", special_note_delay, "Green Star", location[0][0])).start()
+                        threading.Thread(target=press_key, args=("a", specialNoteDelay, "Green Star", location[0][0])).start()
                     elif location[0][0] > sNotePP["gHorFinish"] and location[0][0] < sNotePP["rHorFinish"]:
-                        threading.Thread(target=press_key, args=("s", special_note_delay, "Red Star", location[0][0])).start()
+                        threading.Thread(target=press_key, args=("s", specialNoteDelay, "Red Star", location[0][0])).start()
                     elif location[0][0] > sNotePP["rHorFinish"] and location[0][0] < sNotePP["yHorFinish"]:
-                        threading.Thread(target=press_key, args=("j", special_yellow_note_delay, "Yellow Star", location[0][0])).start()
+                        threading.Thread(target=press_key, args=("j", specialYellowNoteDelay, "Yellow Star", location[0][0])).start()
                     elif location[0][0] > sNotePP["yHorFinish"] and location[0][0] < sNotePP["bHorFinish"]:
-                        threading.Thread(target=press_key, args=("k", special_note_delay, "Blue Star", location[0][0])).start()
+                        threading.Thread(target=press_key, args=("k", specialNoteDelay, "Blue Star", location[0][0])).start()
                     elif location[0][0] > sNotePP["bHorFinish"]:
-                        threading.Thread(target=press_key, args=("l", special_note_delay, "Orange Star", location[0][0])).start()
+                        threading.Thread(target=press_key, args=("l", specialNoteDelay, "Orange Star", location[0][0])).start()
 
         #Visual Debugging
         #PressZone cv2.rectangle(img, (35, 110), (460, 140), (0,255,0), 3)

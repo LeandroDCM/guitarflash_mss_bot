@@ -44,9 +44,9 @@ drawSpecialHitbox = False
 drawNotePress = True
 
 # note delays
-note_delay = 0.13
-special_note_delay = 0.1
-special_yellow_note_delay = 0.2
+noteDelay = 0.13
+specialNoteDelay = 0.1
+specialYellowNoteDelay = 0.2
 
 # screen region
 monitor = {"mon": 0, "top": 865, "left": 700, "width": 500, "height": 60}
