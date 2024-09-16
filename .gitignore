@@ -1,2 +1,13 @@
 .vscode
 .venv
+core_test_time_limit.py
+core_test.py
+test*
+test.py
+screen*
+objects/not_using
+objects/closest_to_pressZone
+objects/smaller
+objects/special_backup
+.git*
+__pycache__

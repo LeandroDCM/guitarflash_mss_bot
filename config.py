@@ -37,6 +37,10 @@ sNotePP = {
 distanceTrashhold = 27
 specialDistanceTrashhold = 27
 pressZone = (35, 110), (460, 140)
+lightningCounter = 0
+noteCounter = 0
+addDelay = False
+isSpecial = False
 
 # Screen drawing
 drawNoteHitbox = True
@@ -45,8 +49,10 @@ drawNotePress = True
 
 # note delays
 noteDelay = 0.13
+delay = 0.13
 specialNoteDelay = 0.1
 specialYellowNoteDelay = 0.2
+
 
 # screen region
 monitor = {"mon": 0, "top": 865, "left": 700, "width": 500, "height": 60}
@@ -60,3 +66,10 @@ colors = {
 "orange" : (0,127,255)
 }
 
+class Color:
+    GREEN = '\033[92m'
+    RED = '\033[91m'
+    YELLOW = '\033[93m'
+    BLUE = '\033[94m'
+    ORANGE = '\033[33m'
+    RESET = '\033[0m'
